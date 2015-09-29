@@ -14,4 +14,7 @@ Global
 		{7ABF439D-796E-4AED-8A44-5E88D2AC6DDB}.Release|x86.ActiveCfg = Release|x86
 		{7ABF439D-796E-4AED-8A44-5E88D2AC6DDB}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = PMySql\PMySql.csproj
+	EndGlobalSection
 EndGlobal
