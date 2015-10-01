@@ -39,7 +39,8 @@ namespace PMySql
 
 		private static void updateDatabase(MySqlConnection mySqlConnection){
 			MySqlCommand mySqlCommand = mySqlConnection.CreateCommand ();
-			mySqlCommand.CommandText = "update articulo set categoria= null where id=5";
+//			mySqlCommand.CommandText = "update articulo set categoria= null where id=5";
+			mySqlCommand.CommandText = "insert into articulo(nombre, categoria)values ('articulo otro',1)";
 			mySqlCommand.ExecuteNonQuery ();
 		}
 
