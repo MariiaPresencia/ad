@@ -15,11 +15,6 @@
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-refresh</property>
       </action>
-      <action id="refreshAction1">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes" />
-        <property name="StockId">gtk-refresh</property>
-      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">MainWindow</property>
@@ -38,7 +33,7 @@
                 <property name="MemberName" />
                 <property name="ShowArrow">False</property>
                 <node name="toolbar" type="Toolbar">
-                  <node type="Toolitem" action="refreshAction1" />
+                  <node type="Toolitem" action="refreshAction" />
                 </node>
               </widget>
               <packing>

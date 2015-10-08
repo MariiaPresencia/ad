@@ -4,7 +4,6 @@ public partial class MainWindow
 {
 	private global::Gtk.UIManager UIManager;
 	private global::Gtk.Action refreshAction;
-	private global::Gtk.Action refreshAction1;
 	private global::Gtk.VBox vbox1;
 	private global::Gtk.VBox vbox2;
 	private global::Gtk.Toolbar toolbar;
@@ -19,8 +18,6 @@ public partial class MainWindow
 		global::Gtk.ActionGroup w1 = new global::Gtk.ActionGroup ("Default");
 		this.refreshAction = new global::Gtk.Action ("refreshAction", null, null, "gtk-refresh");
 		w1.Add (this.refreshAction, null);
-		this.refreshAction1 = new global::Gtk.Action ("refreshAction1", null, null, "gtk-refresh");
-		w1.Add (this.refreshAction1, null);
 		this.UIManager.InsertActionGroup (w1, 0);
 		this.AddAccelGroup (this.UIManager.AccelGroup);
 		this.Name = "MainWindow";
@@ -35,7 +32,7 @@ public partial class MainWindow
 		this.vbox2.Name = "vbox2";
 		this.vbox2.Spacing = 6;
 		// Container child vbox2.Gtk.Box+BoxChild
-		this.UIManager.AddUiFromString ("<ui><toolbar name='toolbar'><toolitem name='refreshAction1' action='refreshAction1'/></toolbar></ui>");
+		this.UIManager.AddUiFromString ("<ui><toolbar name='toolbar'><toolitem name='refreshAction' action='refreshAction'/></toolbar></ui>");
 		this.toolbar = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbar")));
 		this.toolbar.Name = "toolbar";
 		this.toolbar.ShowArrow = false;
