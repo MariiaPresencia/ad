@@ -1,6 +1,7 @@
 using System;
 using Gtk;
 using System.Data;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
 
@@ -25,22 +26,30 @@ public partial class MainWindow: Gtk.Window
 		//extraer columnas con el metodo getColumNames de abajo
 		string[] columnas = getColumnNames (dataReader);
 
+		CellRendererText cellRendererText = new CellRendererText ();
 		//añadimos columnas
 		for (int i = 0; i < columnas.Length; i ++) {
-			treeView.AppendColumn (columnas[i].ToString(), new CellRendererText (), "text", i);
+			//otra manera de añadir columnas con un delegate
+			int column = i;
+			treeView.AppendColumn (columnas [i], cellRendererText,
+			       delegate(TreeViewColumn tree_column, CellRenderer cell, TreeModel tree_model, TreeIter iter) {
+				IList row = (IList)tree_model.GetValue(iter,0);
+				cellRendererText.Text ="["+ row[column].ToString() +"]";
+			});
+			//treeView.AppendColumn (columnas[i].ToString(), new CellRendererText (), "text", i);
 		}
 		//extraemos solo id , nombre 
 		//treeView.AppendColumn ("id", new CellRendererText (), "text" , 0);
 		//treeView.AppendColumn ("nombre", new CellRendererText (), "text" , 1);
 
 		//establezco el modelo
-		Type[] types = getTypes (dataReader.FieldCount);
-		ListStore listStore = new ListStore (types);
+		//Type[] types = getTypes (dataReader.FieldCount);
+		ListStore listStore = new ListStore (typeof(IList));
 		
 		//mostramos los datos de la BD en el treeView
 			while (dataReader.Read()) {
 				//extraemos los valies con el metodo getValues de abajo
-				string[] values = getValues (dataReader);
+				IList values = getValues (dataReader);
 				listStore.AppendValues (values);
 				//en el caso de que solo fuera id y nombre y sin el for
 				//listStore.AppendValues(dataReader[0].toString(),dataReader[1].toString());
