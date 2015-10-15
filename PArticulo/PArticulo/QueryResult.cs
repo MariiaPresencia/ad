@@ -5,6 +5,7 @@ using System.Collections.Generic;
 namespace PArticulo{
 	public class QueryResult{
 		private string[] columnNames;
+
 		public string[] ColumnNames {
 			get {return columnNames;}
 			set {columnNames = value;}
@@ -15,5 +16,8 @@ namespace PArticulo{
 			get {return rows;}
 			set {rows = value;}
 		}
+
+
 	}
+
 }
