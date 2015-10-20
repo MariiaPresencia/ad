@@ -2,7 +2,7 @@ using System;
 using Gtk;
 using System.Collections;
 
-namespace PArticulo
+namespace SerpisAd
 {
 	public class TreeViewHelper
 	{

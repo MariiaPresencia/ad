@@ -1,7 +1,7 @@
 using System;
 using Gtk;
 
-using PArticulo;
+using SerpisAd;
 
 public partial class MainWindow: Gtk.Window
 {	

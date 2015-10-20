@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
 
-namespace PArticulo{
+namespace SerpisAd{
 	public class PersisterHelper{
 		public static QueryResult Get(string selectText) {
 			IDbConnection dbConnection = App.Instance.DbConnection;
