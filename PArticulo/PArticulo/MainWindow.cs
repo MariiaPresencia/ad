@@ -37,15 +37,6 @@ public partial class MainWindow: Gtk.Window
 		deleteAction.Sensitive = false;
 
 	}
-	public bool ConfirmDelete(Window window){
-		//TODO lozalizacion del ¿Quieres eliminar...
-		MessageDialog messageDialog = new MessageDialog (window, DialogFlags.DestroyWithParent, MessageType.Question, ButtonsType.YesNo, "¿Quieres eliminar el elemento seleccionado?");
-		messageDialog.Title = window.Title;
-		ResponseType response = (ResponseType)messageDialog.Run ();
-		messageDialog.Destroy ();
-		return response == ResponseType.Yes;
-	
-	}
 
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a){
 			Application.Quit ();
@@ -59,9 +50,8 @@ public partial class MainWindow: Gtk.Window
 
 	protected void delete (object id)
 	{
-		if (ConfirmDelete (this))
-			return;
-
+		if (WindowHelper.ConfirmDelete(this))
+			Console.WriteLine ("Dice que si a eliminar");
 	}
 
 

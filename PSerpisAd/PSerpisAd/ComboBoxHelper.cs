@@ -1,7 +1,6 @@
 using System;
-using Gtk;
 using System.Collections;
-
+using Gtk;
 
 namespace SerpisAd
 {
@@ -10,10 +9,9 @@ namespace SerpisAd
 		public static void Fill(ComboBox comboBox, QueryResult queryResult){
 			CellRendererText cellRendererText = new CellRendererText ();
 			comboBox.PackStart (cellRendererText, false);
-			comboBox.SetCellDataFunc (cellRendererText,
-			    delegate(CellLayout cell_layout, CellRenderer cell, TreeModel tree_model, TreeIter iter) {
-				IList row = (IList)tree_model.GetValue(iter, 0);
-				cellRendererText.Text = row[1].ToString();
+			comboBox.SetCellDataFunc (cellRendererText, delegate(CellLayout cell_layout, CellRenderer cell, TreeModel tree_model, TreeIter iter) {
+				IList row = (IList)tree_model.GetValue (iter, 0);
+				cellRendererText.Text = row [1].ToString ();
 			});
 			ListStore listStore = new ListStore (typeof(IList));
 			//TODO localizacion de "sin asignar"
@@ -22,7 +20,6 @@ namespace SerpisAd
 			foreach (IList row in queryResult.Rows)
 				listStore.AppendValues (row);
 			comboBox.Model = listStore;
-//			comboBox.Active = 0;
 			comboBox.SetActiveIter (treeIterFirst);
 		}
 	}
