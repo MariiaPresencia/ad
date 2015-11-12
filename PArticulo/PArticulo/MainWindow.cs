@@ -37,7 +37,6 @@ public partial class MainWindow: Gtk.Window
 		deleteAction.Sensitive = false;
 
 	}
-
 	public bool ConfirmDelete(Window window){
 		//TODO lozalizacion del ¿Quieres eliminar...
 		MessageDialog messageDialog = new MessageDialog (window, DialogFlags.DestroyWithParent, MessageType.Question, ButtonsType.YesNo, "¿Quieres eliminar el elemento seleccionado?");
@@ -48,8 +47,6 @@ public partial class MainWindow: Gtk.Window
 	
 	}
 
-
-
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a){
 			Application.Quit ();
 			a.RetVal = true;
@@ -58,10 +55,7 @@ public partial class MainWindow: Gtk.Window
 	private void fillTreeView(){
 		QueryResult queryResult = PersisterHelper.Get ("select * from articulo");
 		TreeViewHelper.Fill (treeView, queryResult);
-
 	}
-
-	
 
 	protected void delete (object id)
 	{
