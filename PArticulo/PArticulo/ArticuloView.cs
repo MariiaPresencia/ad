@@ -4,50 +4,79 @@ using SerpisAd;
 using System.Collections;
 using System.Data;
 
+
 namespace PArticulo
 {
 	public partial class ArticuloView : Gtk.Window
 	{
-		public ArticuloView () : 
-				base(Gtk.WindowType.Toplevel)
+		private object id = null;
+		private string nombre = "";
+		private object categoria = null;
+		private decimal precio = 0;
+		System.Action save;
+
+		public ArticuloView () : base(Gtk.WindowType.Toplevel)
 		{
-			this.Build ();
-//			entryNombre.Text = "nuevo";
-			QueryResult queryResult = PersisterHelper.Get ("select * from categoria");
-			ComboBoxHelper.Fill (comboBoxCategoria, queryResult);
-
-			saveAction.Activated += delegate {save();};
-
+			init ();
+			saveAction.Activated += delegate {insert();};
 		}
-		private void save(){
+		public ArticuloView(object id) :base(WindowType.Toplevel) {
+			this.id = id;
+			load ();
+			init ();
+			saveAction.Activated += delegate {update();};
+		}
+
+		private void init(){
+			this.Build ();
+			entryNombre.Text = nombre;
+			QueryResult queryResult = PersisterHelper.Get ("select * from categoria");
+			ComboBoxHelper.Fill (comboBoxCategoria, queryResult, categoria);
+			spinButtonPrecio.Value = Convert.ToDouble(precio);
+			//saveAction.Activated += delegate {	save();	};
+		}
+
+		private void load(){
 			IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand ();
-			dbCommand.CommandText = "insert into articulo(nombre, categoria, precio)" 
-				+"values(@nombre, @categoria, @precio)";
+			dbCommand.CommandText = "select * from articulo where id = @id";
+			DbCommandHelper.AddParameter(dbCommand, "id", id);
+			IDataReader dataReader = dbCommand.ExecuteReader ();
+			if (!dataReader.Read ())
+				return;
+			nombre = (string)dataReader ["nombre"];
+			categoria = dataReader ["categoria"];
+			if (categoria is DBNull)
+				categoria = null;
+			precio = (decimal)dataReader ["precio"];
+			dataReader.Close ();
+		}
 
-			string nombre = entryNombre.Text;
-			object categoria = GetID (comboBoxCategoria);
-			decimal precio = Convert.ToDecimal(spinButtonPrecio.Value);
+//		private void save() {
+//			if (id == null)
+//				insert ();
+//			else
+//				update ();
+//		}
 
-			addParameter (dbCommand, "nombre", nombre);
-			addParameter (dbCommand, "categoria", categoria);
-			addParameter (dbCommand, "precio", precio);
+		public void insert(){
+			IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand ();
+			dbCommand.CommandText = "insert into articulo (nombre, categoria, precio) " +
+				"values (@nombre, @categoria, @precio)";
+			nombre = entryNombre.Text;
+			categoria = ComboBoxHelper.GetId(comboBoxCategoria);
+			precio = Convert.ToDecimal(spinButtonPrecio.Value);
+
+			DbCommandHelper.AddParameter(dbCommand, "nombre", nombre);
+			DbCommandHelper.AddParameter(dbCommand,"categoria", categoria);
+			DbCommandHelper.AddParameter(dbCommand, "precio", precio);
 			dbCommand.ExecuteNonQuery ();
 			Destroy ();
 		}
 
-		private static void addParameter(IDbCommand dbCommand, string name, object value){
-			IDbDataParameter dbDataParameter = dbCommand.CreateParameter ();
-			dbDataParameter.ParameterName = name;
-			dbDataParameter.Value = value;
-			dbCommand.Parameters.Add (dbDataParameter);
+		private void update() {
+			Console.WriteLine ("update");
 		}
 
-		public static object GetID(ComboBox comboBox){
-			TreeIter treeIter;
-			comboBox.GetActiveIter (out treeIter);
-			IList row = (IList) comboBox.Model.GetValue (treeIter, 0);
-			return row [0];
-		}
 	}
 }
 
