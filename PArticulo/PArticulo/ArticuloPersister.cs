@@ -28,7 +28,7 @@ namespace PArticulo
 			dataReader.Close ();
 			return articulo;
 		}
-		public static void Insert(Articulo articulo){
+		public static int Insert(Articulo articulo){
 			IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand ();
 			dbCommand.CommandText = "insert into articulo (nombre, categoria, precio) " +
 				"values (@nombre, @categoria, @precio)";
@@ -36,17 +36,17 @@ namespace PArticulo
 			DbCommandHelper.AddParameter(dbCommand, "nombre", articulo.Nombre);
 			DbCommandHelper.AddParameter(dbCommand,"categoria", articulo.Categoria);
 			DbCommandHelper.AddParameter(dbCommand, "precio", articulo.Precio);
-			dbCommand.ExecuteNonQuery ();
+			return dbCommand.ExecuteNonQuery ();
 
 		}
-		public static void Update(Articulo articulo){
+		public static int Update(Articulo articulo){
 			IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand ();
 			string update = "update articulo set nombre=@nombre, categoria=@categoria, precio=@precio where id = {0}";
 			dbCommand.CommandText = string.Format (update, articulo.Id);
 			DbCommandHelper.AddParameter(dbCommand, "nombre", articulo.Nombre);
 			DbCommandHelper.AddParameter(dbCommand,"categoria", articulo.Categoria);
 			DbCommandHelper.AddParameter(dbCommand, "precio", articulo.Precio);
-			dbCommand.ExecuteNonQuery ();
+			return dbCommand.ExecuteNonQuery ();
 		}
 	}
 }
