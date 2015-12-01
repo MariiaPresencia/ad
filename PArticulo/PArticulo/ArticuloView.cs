@@ -16,10 +16,7 @@ namespace PArticulo
 		{
 			articulo = new Articulo ();
 			init ();
-			//saveAction.Activated += delegate{insert();};
-			saveAction.Activated += delegate {
-				insert();
-			};
+			saveAction.Activated += delegate {insert();};
 		}
 		public ArticuloView(object id) :base(WindowType.Toplevel) {
 			articulo = ArticuloPersister.Load (id);
@@ -33,32 +30,25 @@ namespace PArticulo
 			QueryResult queryResult = PersisterHelper.Get ("select * from categoria");
 			ComboBoxHelper.Fill (comboBoxCategoria, queryResult, articulo.Categoria);
 			spinButtonPrecio.Value = Convert.ToDouble(articulo.Precio);
-			//saveAction.Activated += delegate {	save();	};
 		}
 
-//		private void save() {
-//			if (id == null)
-//				insert ();
-//			else
-//				update ();
-//		}
-
-		public void insert(){
+		private void updateModel(){
 			articulo.Nombre = entryNombre.Text;
 			articulo.Categoria = ComboBoxHelper.GetId(comboBoxCategoria);
 			articulo.Precio = Convert.ToDecimal(spinButtonPrecio.Value);
+		}
+
+		public void insert(){
+			updateModel ();
 			ArticuloPersister.Insert (articulo); 
 			Destroy ();
 		}
-//		resolver el update 
 		private void update() {
-			articulo.Nombre = entryNombre.Text;
-			articulo.Categoria = ComboBoxHelper.GetId(comboBoxCategoria);
-			articulo.Precio = Convert.ToDecimal(spinButtonPrecio.Value);
+			updateModel ();
 			ArticuloPersister.Update (articulo);
-
 			Destroy ();
 		}
+
 
 	}
 }

@@ -18,15 +18,18 @@ namespace PArticulo
 			DbCommandHelper.AddParameter(dbCommand, "id", id);
 			IDataReader dataReader = dbCommand.ExecuteReader ();
 			if (!dataReader.Read ())
+				//TODO throw exception
 				return null;
 			articulo.Nombre = (string)dataReader ["nombre"];
-			articulo.Categoria = dataReader ["categoria"];
-			if (articulo.Categoria is DBNull)
-				articulo.Categoria = null;
-			articulo.Precio = (decimal)dataReader ["precio"];
-
+			articulo.Categoria = get (dataReader ["categoria"], null);
+			articulo.Precio = (decimal)get(dataReader ["precio"],decimal.Zero);
 			dataReader.Close ();
 			return articulo;
+		}
+
+		private static object get(object value, object defaultValue){
+			//si value es DBNull mostrara defaultValue , si no el value
+			return value is DBNull ? defaultValue : value;
 		}
 		public static int Insert(Articulo articulo){
 			IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand ();
@@ -48,6 +51,10 @@ namespace PArticulo
 			DbCommandHelper.AddParameter(dbCommand, "precio", articulo.Precio);
 			return dbCommand.ExecuteNonQuery ();
 		}
+//		public static int Save(Articulo articulo){
+//			return articulo.Id == null.
+//		}
+
 	}
 }
 
