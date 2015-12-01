@@ -9,21 +9,22 @@ namespace PArticulo
 {
 	public partial class ArticuloView : Gtk.Window
 	{
-		private string nombre = "";
-		private object categoria = null;
-		private decimal precio = 0;
-		System.Action save;
 		private Articulo articulo;
+		System.Action save;
 
 		public ArticuloView () : base(Gtk.WindowType.Toplevel)
 		{
+			articulo = new Articulo ();
 			init ();
-			saveAction.Activated += delegate {ArticuloPersister.Insert(articulo);};
+			//saveAction.Activated += delegate{insert();};
+			saveAction.Activated += delegate {
+				insert();
+			};
 		}
 		public ArticuloView(object id) :base(WindowType.Toplevel) {
 			articulo = ArticuloPersister.Load (id);
 			init ();
-			saveAction.Activated += delegate {ArticuloPersister.Update(articulo);};
+			saveAction.Activated += delegate {update();};
 		}
 
 		private void init(){
@@ -42,35 +43,22 @@ namespace PArticulo
 //				update ();
 //		}
 
-//		public void insert(){
-//			IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand ();
-//			dbCommand.CommandText = "insert into articulo (nombre, categoria, precio) " +
-//				"values (@nombre, @categoria, @precio)";
-//			nombre = entryNombre.Text;
-//			categoria = ComboBoxHelper.GetId(comboBoxCategoria);
-//			precio = Convert.ToDecimal(spinButtonPrecio.Value);
-//
-//			DbCommandHelper.AddParameter(dbCommand, "nombre", nombre);
-//			DbCommandHelper.AddParameter(dbCommand,"categoria", categoria);
-//			DbCommandHelper.AddParameter(dbCommand, "precio", precio);
-//			dbCommand.ExecuteNonQuery ();
-//			Destroy ();
-//		}
+		public void insert(){
+			articulo.Nombre = entryNombre.Text;
+			articulo.Categoria = ComboBoxHelper.GetId(comboBoxCategoria);
+			articulo.Precio = Convert.ToDecimal(spinButtonPrecio.Value);
+			ArticuloPersister.Insert (articulo); 
+			Destroy ();
+		}
 //		resolver el update 
-//		private void update() {
-//			IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand ();
-//			dbCommand.CommandText = "update articulo (nombre, categoria, precio) " +
-//				"values (@nombre, @categoria, @precio) where id = {0}";
-//			nombre = entryNombre.Text;
-//			categoria = ComboBoxHelper.GetId(comboBoxCategoria);
-//			precio = Convert.ToDecimal(spinButtonPrecio.Value);
-//
-//			DbCommandHelper.AddParameter(dbCommand, "nombre", nombre);
-//			DbCommandHelper.AddParameter(dbCommand,"categoria", categoria);
-//			DbCommandHelper.AddParameter(dbCommand, "precio", precio);
-//			dbCommand.ExecuteNonQuery ();
-//			Destroy ();
-//		}
+		private void update() {
+			articulo.Nombre = entryNombre.Text;
+			articulo.Categoria = ComboBoxHelper.GetId(comboBoxCategoria);
+			articulo.Precio = Convert.ToDecimal(spinButtonPrecio.Value);
+			ArticuloPersister.Update (articulo);
+
+			Destroy ();
+		}
 
 	}
 }

@@ -30,27 +30,22 @@ namespace PArticulo
 		}
 		public static void Insert(Articulo articulo){
 			IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand ();
-			dbCommand.CommandText = "insert into articulo (nombre, categoria, precio) values (@nombre, @categoria, @precio)";
-			String nom = articulo.Nombre;
-			object categoria = articulo.Categoria;
-			decimal precio = articulo.Precio;
-			DbCommandHelper.AddParameter(dbCommand, "nombre", nom);
-			DbCommandHelper.AddParameter(dbCommand,"categoria", categoria);
-			DbCommandHelper.AddParameter(dbCommand, "precio", precio);
+			dbCommand.CommandText = "insert into articulo (nombre, categoria, precio) " +
+				"values (@nombre, @categoria, @precio)";
+
+			DbCommandHelper.AddParameter(dbCommand, "nombre", articulo.Nombre);
+			DbCommandHelper.AddParameter(dbCommand,"categoria", articulo.Categoria);
+			DbCommandHelper.AddParameter(dbCommand, "precio", articulo.Precio);
 			dbCommand.ExecuteNonQuery ();
 
 		}
 		public static void Update(Articulo articulo){
 			IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand ();
-			dbCommand.CommandText = "update articulo (nombre, categoria, precio) " +
-				"values (@nombre, @categoria, @precio) where id = {0}";
-			String nom = articulo.Nombre;
-			object categoria = articulo.Categoria;
-			decimal precio = articulo.Precio;
-
-			DbCommandHelper.AddParameter(dbCommand, "nombre", nom);
-			DbCommandHelper.AddParameter(dbCommand,"categoria", categoria);
-			DbCommandHelper.AddParameter(dbCommand, "precio", precio);
+			string update = "update articulo set nombre=@nombre, categoria=@categoria, precio=@precio where id = {0}";
+			dbCommand.CommandText = string.Format (update, articulo.Id);
+			DbCommandHelper.AddParameter(dbCommand, "nombre", articulo.Nombre);
+			DbCommandHelper.AddParameter(dbCommand,"categoria", articulo.Categoria);
+			DbCommandHelper.AddParameter(dbCommand, "precio", articulo.Precio);
 			dbCommand.ExecuteNonQuery ();
 		}
 	}
