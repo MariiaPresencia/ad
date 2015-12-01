@@ -44,8 +44,16 @@ namespace PReflection
 		}
 		private static void showObject(object obj){
 			Type type = obj.GetType ();
+			if (!(obj is Attribute)) {
+				object[] attributes = type.GetCustomAttributes (true);
+				foreach (Attribute attribute in attributes)
+					showObject (attribute);
+			}
 			PropertyInfo[] propertyInfos = type.GetProperties ();
 			foreach (PropertyInfo propertyInfo in propertyInfos) {
+				if (propertyInfo.IsDefined (typeof(IdAttribute), true)) {
+					Console.WriteLine("{0} decorado con IdAttribute",propertyInfo.Name);
+				}
 				Console.WriteLine("{0} = {1}",propertyInfo.Name,propertyInfo.GetValue (obj, null));
 			}
 		}
@@ -58,7 +66,17 @@ namespace PReflection
 			}
 		}
 	}
+	public class IdAttribute : Attribute{
+	}
+	public class TableAttribute : Attribute{
+		private string name;
 
+		public string Name {
+			get {return name;}
+			set {name = value;}
+		}
+	}
+	
 	public class Foo{
 		private object id;
 
@@ -74,7 +92,7 @@ namespace PReflection
 			set {name = value;}
 		}
 	}
-
+	[Table(Name = "article")]//decoraciones
 	public class Articulo
 	{
 		public Articulo (){}
@@ -83,7 +101,7 @@ namespace PReflection
 		private string nombre;
 		private object categoria;
 		private decimal precio;
-
+		[Id]//se suele poner IdAttribute
 		public object Id{
 			get{return id;}
 			set{id = value;}
@@ -104,3 +122,5 @@ namespace PReflection
 		}
 	}
 }
+
+	
