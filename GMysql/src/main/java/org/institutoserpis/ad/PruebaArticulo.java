@@ -21,12 +21,12 @@ public class PruebaArticulo {
 		int numColum = rsMetaData.getColumnCount();
 		System.out.println("Nombre de las columnas:");
 		for (int i =1; i < numColum+1; i++) {
-		    String columnName = rsMetaData.getColumnName(i);
-		    System.out.print(columnName+"  ");
+		    //mostamos los nombres de las columnas
+			String columnName = rsMetaData.getColumnName(i);
+		    System.out.print(columnName+"|");
 		    
 		}
 		System.out.println();
-
 		System.out.println();
 		while(result.next()){
 			String id1 = result.getString(1);
@@ -34,10 +34,9 @@ public class PruebaArticulo {
 		    String categoria1= result.getString(3);
 		    String precio1 = result.getString(4);
 		    //mostramos los datos de las columnas de la base de datos
-		    System.out.println(id1+" | "+nombre1+" | "+ categoria1 +" | "+ precio1);
+		    System.out.println(id1+" | "+nombre1+" | "+ categoria1 +" | "+ precio1 +"\n");
 		}
-		
-		
+
 		connection.close();
 		System.out.println();
 		System.out.println("Fin");
