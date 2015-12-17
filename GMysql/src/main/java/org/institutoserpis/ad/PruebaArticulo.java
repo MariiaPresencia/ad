@@ -35,29 +35,27 @@ public class PruebaArticulo {
 		System.out.println("TABLA:");
 		mostrarDatos(result);
 		System.out.println("\n");
-		
-		result.close();
-		statement.close();
+
 		connection.close();
 		System.out.println("Fin");
 	}
 	
 	private static int insertarDatos(PreparedStatement insertar) throws SQLException{
-		insertar.setString(1, "articuloInsertar3");
+		insertar.setString(1, "articuloInsertar10");
 		insertar.setInt(2, 3);
 		insertar.setDouble(3, 5.7);
 		return insertar.executeUpdate();
 	}
 	
 	private static int updateDatos(PreparedStatement insertar) throws SQLException{
-		insertar.setString(1, "articulo7");
+		insertar.setString(1, "articulo1");
 		insertar.setInt(2, 1);
 		insertar.setDouble(3, 5.7);
 		return insertar.executeUpdate();
 	}
 	
 	private static int deleteDatos(PreparedStatement insertar)throws SQLException{
-		insertar.setString(1, "articulo 23");
+		insertar.setString(1, "articulo 3");
 		return insertar.executeUpdate();
 	}
 	
