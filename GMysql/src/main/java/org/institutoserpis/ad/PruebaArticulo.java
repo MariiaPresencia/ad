@@ -1,39 +1,64 @@
 package org.institutoserpis.ad;
 
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import com.mysql.jdbc.PreparedStatement;
+import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class PruebaArticulo {
+	static Scanner teclado = new Scanner(System.in);
 	public static void main(String[] args) throws Exception {
 		//conectar con la base de datos 
 		Connection connection = DriverManager.getConnection(
 				"jdbc:mysql://localhost/dbprueba", "root", "sistemas");
 		Statement statement = connection.createStatement();
 		
-		//preparando el insert, update y delete
-		String insert="INSERT INTO articulo VALUES(null,?,?,?)";
-		String update = "UPDATE articulo SET nombre = ? WHERE categoria=? AND precio = ?";
-		String delete = "DELETE FROM articulo WHERE nombre = ?";
-		
-		//los creamos y ejecutamos
-		PreparedStatement insertar = (PreparedStatement)connection.prepareStatement(insert);
-		insertarDatos(insertar);
-		PreparedStatement update1 = (PreparedStatement) connection.prepareStatement(update);
-		updateDatos(update1);
-		PreparedStatement delete1 = (PreparedStatement) connection.prepareStatement(delete);
-		deleteDatos(delete1);
-		
 		//ejecutamos la sentencia select * from articulo
 		ResultSet result = statement.executeQuery("SELECT * FROM articulo");
 		
-		//mostramos la tabla con los datos
-		System.out.println("TABLA:");
+		System.out.println( "                 "+"\tTABLA:");
 		mostrarDatos(result);
+		System.out.println("\n");
+		
+		//creamos el menu y ejecutamos los metodos correspondientes
+		System.out.println("MENU:");
+		System.out.println("1- Leer");
+		System.out.println("2- Nuevo");
+		System.out.println("3- Editar");
+		System.out.println("4- Eliminar");
+		System.out.println("");
+		System.out.print("Opcion que eliges:");
+		int num = teclado.nextInt();
+		
+		switch(num){
+		case 1:
+			
+			break;
+		case 2: 
+			String insert="INSERT INTO articulo VALUES(null,?,?,?)";
+			PreparedStatement insertar = (PreparedStatement)connection.prepareStatement(insert);
+			insertarDatos(insertar);
+			break;
+		case 3:
+			String update = "UPDATE articulo SET nombre = ? WHERE categoria=? AND precio = ?";
+			PreparedStatement update1 = (PreparedStatement) connection.prepareStatement(update);
+			updateDatos(update1);
+			break;
+		case 4:
+			String delete = "DELETE FROM articulo WHERE nombre = ?";
+			PreparedStatement delete1 = (PreparedStatement) connection.prepareStatement(delete);
+			deleteDatos(delete1);
+			break;	
+		}
+		ResultSet result1 = statement.executeQuery("SELECT * FROM articulo");
+		//mostramos la tabla con los datos
+		System.out.println("TABLA MODIFICADA:");
+		mostrarDatos(result1);
 		System.out.println("\n");
 
 		connection.close();
@@ -41,21 +66,35 @@ public class PruebaArticulo {
 	}
 	
 	private static int insertarDatos(PreparedStatement insertar) throws SQLException{
-		insertar.setString(1, "articuloInsertar10");
-		insertar.setInt(2, 3);
-		insertar.setDouble(3, 5.7);
+		System.out.println("Nombre del articulo :");
+		String nombre = teclado.next();
+		System.out.println("Categoria (1-3):");
+		int categoria = teclado.nextInt();
+		System.out.println("Precio:");
+		double precio = teclado.nextDouble();
+		insertar.setString(1, nombre);
+		insertar.setInt(2,categoria);
+		insertar.setDouble(3, precio);
 		return insertar.executeUpdate();
 	}
 	
 	private static int updateDatos(PreparedStatement insertar) throws SQLException{
-		insertar.setString(1, "articulo1");
-		insertar.setInt(2, 1);
-		insertar.setDouble(3, 5.7);
+		System.out.println("Nombre del articulo :");
+		String nombre = teclado.next();
+		System.out.println("Categoria (1-3):");
+		int categoria = teclado.nextInt();
+		System.out.println("Precio:");
+		double precio = teclado.nextDouble();
+		insertar.setString(1, nombre);
+		insertar.setInt(2, categoria);
+		insertar.setDouble(3, precio);
 		return insertar.executeUpdate();
 	}
 	
 	private static int deleteDatos(PreparedStatement insertar)throws SQLException{
-		insertar.setString(1, "articulo 3");
+		System.out.println("Nombre del articulo :");
+		String nombre = teclado.next();
+		insertar.setString(1, nombre);
 		return insertar.executeUpdate();
 	}
 	
@@ -70,7 +109,6 @@ public class PruebaArticulo {
 		}
 		System.out.println();
 		System.out.println("---------------------------------------------------------------");
-		System.out.println("\n");
 		while (rs.next()) {
 		      for (int i = 1; i < numColum + 1; i++) {
 		        System.out.print(rs.getString(i) + "         "+"\t");
