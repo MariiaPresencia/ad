@@ -33,12 +33,16 @@ public class PruebaArticulo {
 			System.out.println("");
 			System.out.print("Opcion que eliges:");
 			num = teclado.nextInt();
-		
+			//vaciamos el buffer
+			teclado.nextLine();
 			
 		switch(num){
 		case 1:
-			String visualizar = "SELECT id FROM articulo";
+			System.out.println("Que id quieres visualizar?");
+			int id1 = teclado.nextInt();
+			String visualizar = "SELECT * FROM articulo WHERE id ="+id1+"";
 			ResultSet vis = statement.executeQuery(visualizar);
+			mostrarDatos(vis);
 			break;
 		case 2: 
 			String insert="INSERT INTO articulo VALUES (null,?,?,?)";
@@ -46,7 +50,7 @@ public class PruebaArticulo {
 			insertarDatos(insertar);
 			break;	
 		case 3:
-			String update = "UPDATE articulo SET categoria =? WHERE nombre= ?";
+			String update = "UPDATE articulo SET nombre =?,categoria=?,precio=? WHERE id=?";
 			PreparedStatement update1 = (PreparedStatement) connection.prepareStatement(update);
 			updateDatos(update1);
 			break;
@@ -66,7 +70,6 @@ public class PruebaArticulo {
 		}
 		}while(num > 0);
 	}
-	
 	private static int insertarDatos(PreparedStatement insertar) throws SQLException{
 		System.out.println("Nombre del articulo :");
 		String nombre = teclado.nextLine();
@@ -79,23 +82,28 @@ public class PruebaArticulo {
 		insertar.setDouble(3, precio);
 		return insertar.executeUpdate();
 	}
-	private static int updateDatos(PreparedStatement insertar) throws SQLException{
+	private static int updateDatos(PreparedStatement update) throws SQLException{
+		System.out.println("El id:");
+		int id = teclado.nextInt();
+		teclado.nextLine();
 		System.out.println("Nombre del articulo :");
-		String nombre = teclado.next();
+		String nombre = teclado.nextLine();
 		System.out.println("Categoria (1-3):");
 		int categoria = teclado.nextInt();
-		insertar.setString(1, nombre);
-		insertar.setInt(2, categoria);
-		return insertar.executeUpdate();
+		System.out.println("Precio:");
+		double precio = teclado.nextDouble();
+		update.setInt(4,id);
+		update.setDouble(3,precio);
+		update.setInt(2,categoria);
+		update.setString(1,nombre);
+		return update.executeUpdate();
 	}
-	
 	private static int deleteDatos(PreparedStatement insertar)throws SQLException{
 		System.out.println("Id del articulo :");
 		int nombre = teclado.nextInt();
 		insertar.setInt(1, nombre);
 		return insertar.executeUpdate();
 	}
-	
 	private static void mostrarDatos(ResultSet rs) throws Exception {	
 		ResultSetMetaData rsMetaData = rs.getMetaData();
 		int numColum = rsMetaData.getColumnCount();
