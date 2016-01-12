@@ -76,7 +76,13 @@ public class PruebaArticulo {
 		insertar.setString(1, nombre);
 		System.out.println("Categoria (1-3):");
 		int categoria = teclado.nextInt();
-		insertar.setInt(2,categoria);
+		if(categoria>1 && categoria <3){
+			insertar.setInt(2,categoria);
+		}else{
+			System.out.println("Introduce 1 o 2 o 3 para la categoria: ");
+			int categoria1 = teclado.nextInt();
+			insertar.setInt(2, categoria1);
+		}
 		System.out.println("Precio:");
 		double precio = teclado.nextDouble();
 		insertar.setDouble(3, precio);
@@ -90,19 +96,25 @@ public class PruebaArticulo {
 		String nombre = teclado.nextLine();
 		System.out.println("Categoria (1-3):");
 		int categoria = teclado.nextInt();
+		if(categoria>1 && categoria <3){
+			update.setInt(2,categoria);
+		}else{
+			System.out.println("Introduce 1 o 2 o 3 para la categoria: ");
+			int categoria1 = teclado.nextInt();
+			update.setInt(2, categoria1);
+		}
 		System.out.println("Precio:");
 		double precio = teclado.nextDouble();
 		update.setInt(4,id);
 		update.setDouble(3,precio);
-		update.setInt(2,categoria);
 		update.setString(1,nombre);
 		return update.executeUpdate();
 	}
-	private static int deleteDatos(PreparedStatement insertar)throws SQLException{
+	private static int deleteDatos(PreparedStatement delete)throws SQLException{
 		System.out.println("Id del articulo :");
 		int nombre = teclado.nextInt();
-		insertar.setInt(1, nombre);
-		return insertar.executeUpdate();
+		delete.setInt(1, nombre);
+		return delete.executeUpdate();
 	}
 	private static void mostrarDatos(ResultSet rs) throws Exception {	
 		ResultSetMetaData rsMetaData = rs.getMetaData();
