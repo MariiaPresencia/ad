@@ -81,6 +81,11 @@ public class PruebaArticulo {
 		}else{
 			System.out.println("Introduce 1 o 2 o 3 para la categoria: ");
 			int categoria1 = teclado.nextInt();
+			while(categoria1<1 || categoria1 >3){
+				System.out.println("Introduce 1 o 2 o 3 para la categoria: ");
+				categoria1 = teclado.nextInt();
+				insertar.setInt(2, categoria1);
+			}
 			insertar.setInt(2, categoria1);
 		}
 		System.out.println("Precio:");
@@ -101,6 +106,11 @@ public class PruebaArticulo {
 		}else{
 			System.out.println("Introduce 1 o 2 o 3 para la categoria: ");
 			int categoria1 = teclado.nextInt();
+			while(categoria1 <1 || categoria1 >3){
+				System.out.println("Introduce 1 o 2 o 3 para la categoria: ");
+				categoria1 = teclado.nextInt();
+				update.setInt(2, categoria1);
+			}
 			update.setInt(2, categoria1);
 		}
 		System.out.println("Precio:");
