@@ -29,7 +29,7 @@ public class PruebaArticulo {
 	private static void show(Articulo articulo){
 		System.out.printf("%5s %-30s %-25s %10s\n", 
 				articulo.getId(), 
-				articulo.getNombre(), 
+				articulo.getNombre(),
 				format(articulo.getCategoria()), 
 				articulo.getPrecio()
 		);
@@ -39,6 +39,7 @@ public class PruebaArticulo {
 		if(categoria == null)
 			return null;
 		return String.format("%4s %-20s", categoria.getId(), categoria.getNombre());
+		//return String.format("%4s", categoria.getId());
 	}
 	//metodo para visualizar todos los objetos
 	private static void query(){

@@ -3,6 +3,7 @@ package org.institutoserpis.ad;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -32,7 +33,7 @@ public class Articulo {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="categoria")
 	public Categoria getCategoria() {
 		return categoria;
