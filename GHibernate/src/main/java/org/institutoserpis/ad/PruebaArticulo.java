@@ -18,21 +18,27 @@ public class PruebaArticulo {
 		entityManagerFactory = Persistence.createEntityManagerFactory("org.institutoserpis.ad");
 		
 		//find(2L);
-		Long articuloId = persist();
-		update(articuloId);
-		find(articuloId);
-		remove(articuloId);
+		//Long articuloId = persist();
+		//update(articuloId);
+		//find(articuloId);
+		//remove(articuloId);
 		query();
 		
 		entityManagerFactory.close();
 	}
 	private static void show(Articulo articulo){
-		System.out.printf("%5s %-30s %5s %10s\n", 
+		System.out.printf("%5s %-30s %-25s %10s\n", 
 				articulo.getId(), 
 				articulo.getNombre(), 
-				articulo.getCategoria(), 
+				format(articulo.getCategoria()), 
 				articulo.getPrecio()
 		);
+	}
+	
+	private static String format(Categoria categoria){
+		if(categoria == null)
+			return null;
+		return String.format("%4s %-20s", categoria.getId(), categoria.getNombre());
 	}
 	//metodo para visualizar todos los objetos
 	private static void query(){

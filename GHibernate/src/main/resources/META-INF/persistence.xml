@@ -8,10 +8,10 @@
             Persistence unit for the project GHibernate
         </description>
 
-        <class>org.institutoserpis.ad.Articulo</class>
+        <!-- class>org.institutoserpis.ad.Articulo</class-->
 
         <properties>
-            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+            <!-- property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" /-->
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/dbprueba" />
             <property name="javax.persistence.jdbc.user" value="root" />
             <property name="javax.persistence.jdbc.password" value="sistemas" />
