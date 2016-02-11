@@ -2,12 +2,10 @@ package org.institutoserpis.ad;
 
 import java.math.BigDecimal;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -25,7 +23,10 @@ public class PedidoLinea {
 	public Long getId() {
 		return id;
 	}
-	@ManyToOne(fetch=FetchType.LAZY)
+	public void setId(Long id){
+		this.id = id;
+	}
+	@ManyToOne
 	@JoinColumn(name="pedido")
 	public Pedido getPedido() {
 		return pedido;
@@ -34,7 +35,7 @@ public class PedidoLinea {
 		this.pedido = pedido;
 	}
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="articulo")
 	public Articulo getArticulo() {
 		return articulo;
@@ -60,5 +61,15 @@ public class PedidoLinea {
 	public void setImporte(BigDecimal importe) {
 		this.importe = importe;
 	}
-	
+	@Override
+	public String toString() {
+		return String.format("%s [pedido-%s] [articulo-%s] %s %s %s",
+				id,
+				//si es null devuelve null , si no devuelve el id
+				pedido == null ? null : pedido.getId() , 
+				articulo == null ? null : articulo.getId(),
+				precio,
+				unidades,
+				importe);
+	}
 }
