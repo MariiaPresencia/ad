@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,7 +21,6 @@ public class Pedido {
 	private Calendar fecha;
 	//private BigDecimal importe;
 	private List<PedidoLinea> pedidosLineas = new ArrayList<>();
-	
 	
 	@Id
 	@GeneratedValue(generator="increment")
@@ -54,7 +54,8 @@ public class Pedido {
 	public void setPrecio(BigDecimal importe) {
 		this.importe = importe;
 	}*/
-	@OneToMany(mappedBy="pedido")
+	//con el cascade ya no tienes por que preocuparte para que haga un persist de cada Linea
+	@OneToMany(mappedBy="pedido", cascade=CascadeType.ALL)
 	public List<PedidoLinea> getPedidosLineas() {
 		return pedidosLineas;
 	}

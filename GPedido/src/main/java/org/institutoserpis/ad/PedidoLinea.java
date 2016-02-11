@@ -65,7 +65,6 @@ public class PedidoLinea {
 	public String toString() {
 		return String.format("%s [pedido-%s] [articulo-%s] %s %s %s",
 				id,
-				//si es null devuelve null , si no devuelve el id
 				pedido == null ? null : pedido.getId() , 
 				articulo == null ? null : articulo.getId(),
 				precio,
